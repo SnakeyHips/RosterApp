@@ -1,0 +1,113 @@
+﻿using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using RosterApp.Models;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+
+namespace RosterApp.Views
+{
+    public partial class AddAbsenceWindow : MetroWindow
+    {
+        public AddAbsenceWindow()
+        {
+            InitializeComponent();
+            cboType.Items.Add("Day Off");
+            cboType.Items.Add("Annual Leave");
+            cboType.Items.Add("Sick Leave");
+            cboType.Items.Add("Special Leave");
+            cboType.Items.Add("Training");
+        }
+
+        private async void btnFind_Click(object sender, RoutedEventArgs e)
+        {
+            if(txtId.Text != "")
+            {
+                try
+                {
+                    txtName.Text = ListManager.StaffList.First(x => x.Id == int.Parse(txtId.Text)).Name;
+                }
+                catch
+                {
+                    await this.ShowMessageAsync("", "No staff found with ID provided.");
+                }
+            }
+        }
+
+        private async void btnAddAbsence_Click(object sender, RoutedEventArgs e)
+        {
+            if(txtId.Text == "")
+            {
+                await this.ShowMessageAsync("", "Please enter a Staff ID.");
+            }
+            else if (txtName.Text == "")
+            {
+                await this.ShowMessageAsync("", "Please find a valid Staff via ID.");
+            }
+            else if (cboType.Text == "")
+            {
+                await this.ShowMessageAsync("", "Please enter an Absence Type");
+            }
+            else  if (dateStart.Text == "")
+            {
+                await this.ShowMessageAsync("", "Please enter a Start Date.");
+            }
+            else if (DateTime.Parse(dateStart.Text).CompareTo(DateTime.Now) < 0)
+            {
+                await this.ShowMessageAsync("", "Please enter a valid Start Date.");
+            }
+            else if (ListManager.AbsenceList.Find(x => x.StaffId == int.Parse(txtId.Text) && x.StartDate == dateStart.Text) != null)
+            {
+                await this.ShowMessageAsync("", "Staff already has Absence for this Start Date.");
+            }
+            else if (dateEnd.Text == "")
+            {
+                await this.ShowMessageAsync("", "Please enter an End Date.");
+            }
+            else if (DateTime.Parse(dateEnd.Text).CompareTo(DateTime.Parse(dateStart.Text)) < 0)
+            {
+                await this.ShowMessageAsync("", "Please enter a valid End Date.");
+            }
+            else if (txtHours.Text == "")
+            {
+                await this.ShowMessageAsync("", "Please enter an Absence Length.");
+            }
+            else
+            {
+                Absence temp = new Absence(
+                    int.Parse(txtId.Text),
+                    txtName.Text,
+                    cboType.Text,
+                    dateStart.Text,
+                    dateEnd.Text,
+                    double.Parse(txtHours.Text));
+                //Update table and list
+                ListManager.AddAbsence(temp);
+                ListManager.AbsenceList.Add(temp);
+                //Update staff's absence hours
+                ListManager.UpdateRoster(temp.StaffId, 0.0, temp.Length, ListManager.GetWeek(DateTime.Parse(dateStart.Text)));
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+        }
+
+        //Method to force only numbers in textbox input
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            //Use this in the xaml file to only allow numbers in input
+            Regex regex = new Regex("[^0-9.]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+    }
+}
