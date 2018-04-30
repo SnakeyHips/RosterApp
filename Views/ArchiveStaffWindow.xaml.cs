@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
@@ -13,7 +13,7 @@ namespace RosterApp.Views
         {
             InitializeComponent();
             ListManager.WeekList = ListManager.GetRosterWeeks();
-            foreach(double week in ListManager.WeekList)
+            foreach (double week in ListManager.WeekList)
             {
                 lstWeeks.Items.Add(week);
             }
@@ -23,7 +23,7 @@ namespace RosterApp.Views
         {
             lstStaff.Items.Clear();
             ListManager.RosterList = ListManager.GetRoster((double)lstWeeks.SelectedValue);
-            foreach(Staff s in ListManager.RosterList)
+            foreach (Staff s in ListManager.RosterList)
             {
                 lstStaff.Items.Add(s);
             }
@@ -43,6 +43,13 @@ namespace RosterApp.Views
                     lstStaff.Items.Remove(Selected);
                 }
             }
+        }
+
+        private void btnCalculate_Click(object sender, RoutedEventArgs e)
+        {
+            CalculateDialog calculateDialog = new CalculateDialog();
+            calculateDialog.Owner = this;
+            calculateDialog.ShowDialog();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
