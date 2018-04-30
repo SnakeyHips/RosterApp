@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
@@ -25,6 +24,7 @@ namespace RosterApp.Views
         {
             InitializeComponent();
             DataContext = this;
+            ListManager.GetAvailableStaff();
             //Put all relevant roles in respective list
             SVList = ListManager.AvailableStaffList.Where(x => x.Role == "SV").ToList();
             DSVList = ListManager.AvailableStaffList.Where(x => x.Role == "DSV").ToList();
@@ -211,6 +211,7 @@ namespace RosterApp.Views
 
                     //Assign new appoint staff
                     Selected.SV1Id = (int)cboSV1.SelectedValue;
+                    Selected.SV1Name = cboSV1.Text;
                     Selected.SV1Start = cboSV1Start.Text;
                     Selected.SV1End = cboSV1End.Text;
                     //Add onto new staff's appointed hours/New record created in sql method
@@ -220,6 +221,7 @@ namespace RosterApp.Views
                 {
                     //Assign new appoint staff
                     Selected.SV1Id = (int)cboSV1.SelectedValue;
+                    Selected.SV1Name = cboSV1.Text;
                     Selected.SV1Start = cboSV1Start.Text;
                     Selected.SV1End = cboSV1End.Text;
                     //Add onto new staff's appointed hours/New record created in sql method
@@ -233,6 +235,7 @@ namespace RosterApp.Views
                 ListManager.UpdateRoster(Selected.SV1Id, -ListManager.GetLength(Selected.SV1Start, Selected.SV1End), 0.0, Week);
                 //Remove any saved staff info
                 Selected.SV1Id = 0;
+                Selected.SV1Name = "";
                 Selected.SV1Start = "";
                 Selected.SV1End = "";
             }
@@ -255,6 +258,7 @@ namespace RosterApp.Views
                 {
                     ListManager.UpdateRoster(Selected.DRI1Id, -ListManager.GetLength(Selected.DRI1Start, Selected.DRI1End), 0.0, Week);
                     Selected.DRI1Id = (int)cboDRI1.SelectedValue;
+                    Selected.DRI1Name = cboDRI1.Text;
                     Selected.DRI1Start = cboDRI1Start.Text;
                     Selected.DRI1End = cboDRI1End.Text;
                     ListManager.UpdateRoster(Selected.DRI1Id, ListManager.GetLength(Selected.DRI1Start, Selected.DRI1End), 0.0, Week);
@@ -262,6 +266,7 @@ namespace RosterApp.Views
                 else
                 {
                     Selected.DRI1Id = (int)cboDRI1.SelectedValue;
+                    Selected.DRI1Name = cboDRI1.Text;
                     Selected.DRI1Start = cboDRI1Start.Text;
                     Selected.DRI1End = cboDRI1End.Text;
                     ListManager.UpdateRoster(Selected.DRI1Id, ListManager.GetLength(Selected.DRI1Start, Selected.DRI1End), 0.0, Week);
@@ -271,6 +276,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.DRI1Id, -ListManager.GetLength(Selected.DRI1Start, Selected.DRI1End), 0.0, Week);
                 Selected.DRI1Id = 0;
+                Selected.DRI1Name = "";
                 Selected.DRI1Start = "";
                 Selected.DRI1End = "";
             }
@@ -296,6 +302,7 @@ namespace RosterApp.Views
                         {
                             ListManager.UpdateRoster(Selected.DRI2Id, -ListManager.GetLength(Selected.DRI2Start, Selected.DRI2End), 0.0, Week);
                             Selected.DRI2Id = (int)cboDRI2.SelectedValue;
+                            Selected.DRI2Name = cboDRI2.Text;
                             Selected.DRI2Start = cboDRI2Start.Text;
                             Selected.DRI2End = cboDRI2End.Text;
                             ListManager.UpdateRoster(Selected.DRI2Id, ListManager.GetLength(Selected.DRI2Start, Selected.DRI2End), 0.0, Week);
@@ -303,6 +310,7 @@ namespace RosterApp.Views
                         else
                         {
                             Selected.DRI2Id = (int)cboDRI2.SelectedValue;
+                            Selected.DRI2Name = cboDRI2.Text;
                             Selected.DRI2Start = cboDRI2Start.Text;
                             Selected.DRI2End = cboDRI2End.Text;
                             ListManager.UpdateRoster(Selected.DRI2Id, ListManager.GetLength(Selected.DRI2Start, Selected.DRI2End), 0.0, Week);
@@ -319,6 +327,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.DRI2Id, -ListManager.GetLength(Selected.DRI2Start, Selected.DRI2End), 0.0, Week);
                 Selected.DRI2Id = 0;
+                Selected.DRI2Name = "";
                 Selected.DRI2Start = "";
                 Selected.DRI2End = "";
             }
@@ -341,6 +350,7 @@ namespace RosterApp.Views
                 {
                     ListManager.UpdateRoster(Selected.RN1Id, -ListManager.GetLength(Selected.RN1Start, Selected.RN1End), 0.0, Week);
                     Selected.RN1Id = (int)cboRN1.SelectedValue;
+                    Selected.RN1Name = cboRN1.Text;
                     Selected.RN1Start = cboRN1Start.Text;
                     Selected.RN1End = cboRN1End.Text;
                     ListManager.UpdateRoster(Selected.RN1Id, ListManager.GetLength(Selected.RN1Start, Selected.RN1End), 0.0, Week);
@@ -348,6 +358,7 @@ namespace RosterApp.Views
                 else
                 {
                     Selected.RN1Id = (int)cboRN1.SelectedValue;
+                    Selected.RN1Name = cboRN1.Text;
                     Selected.RN1Start = cboRN1Start.Text;
                     Selected.RN1End = cboRN1End.Text;
                     ListManager.UpdateRoster(Selected.RN1Id, ListManager.GetLength(Selected.RN1Start, Selected.RN1End), 0.0, Week);
@@ -357,6 +368,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.RN1Id, -ListManager.GetLength(Selected.RN1Start, Selected.RN1End), 0.0, Week);
                 Selected.RN1Id = 0;
+                Selected.RN1Name = "";
                 Selected.RN1Start = "";
                 Selected.RN1End = "";
             }
@@ -382,6 +394,7 @@ namespace RosterApp.Views
                         {
                             ListManager.UpdateRoster(Selected.RN2Id, -ListManager.GetLength(Selected.RN2Start, Selected.RN2End), 0.0, Week);
                             Selected.RN2Id = (int)cboRN2.SelectedValue;
+                            Selected.RN2Name = cboRN2.Text;
                             Selected.RN2Start = cboRN2Start.Text;
                             Selected.RN2End = cboRN2End.Text;
                             ListManager.UpdateRoster(Selected.RN2Id, ListManager.GetLength(Selected.RN2Start, Selected.RN2End), 0.0, Week);
@@ -389,6 +402,7 @@ namespace RosterApp.Views
                         else
                         {
                             Selected.RN2Id = (int)cboRN2.SelectedValue;
+                            Selected.RN2Name = cboRN2.Text;
                             Selected.RN2Start = cboRN2Start.Text;
                             Selected.RN2End = cboRN2End.Text;
                             ListManager.UpdateRoster(Selected.RN2Id, ListManager.GetLength(Selected.RN2Start, Selected.RN2End), 0.0, Week);
@@ -405,6 +419,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.RN2Id, -ListManager.GetLength(Selected.RN2Start, Selected.RN2End), 0.0, Week);
                 Selected.RN2Id = 0;
+                Selected.RN1Name = "";
                 Selected.RN2Start = "";
                 Selected.RN2End = "";
             }
@@ -430,6 +445,7 @@ namespace RosterApp.Views
                         {
                             ListManager.UpdateRoster(Selected.RN3Id, -ListManager.GetLength(Selected.RN3Start, Selected.RN3End), 0.0, Week);
                             Selected.RN3Id = (int)cboRN3.SelectedValue;
+                            Selected.RN3Name = cboRN3.Text;
                             Selected.RN3Start = cboRN3Start.Text;
                             Selected.RN3End = cboRN3End.Text;
                             ListManager.UpdateRoster(Selected.RN3Id, ListManager.GetLength(Selected.RN3Start, Selected.RN3End), 0.0, Week);
@@ -437,6 +453,7 @@ namespace RosterApp.Views
                         else
                         {
                             Selected.RN3Id = (int)cboRN3.SelectedValue;
+                            Selected.RN3Name = cboRN3.Text;
                             Selected.RN3Start = cboRN3Start.Text;
                             Selected.RN3End = cboRN3End.Text;
                             ListManager.UpdateRoster(Selected.RN3Id, ListManager.GetLength(Selected.RN3Start, Selected.RN3End), 0.0, Week);
@@ -453,6 +470,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.RN3Id, -ListManager.GetLength(Selected.RN3Start, Selected.RN3End), 0.0, Week);
                 Selected.RN3Id = 0;
+                Selected.RN3Name = "";
                 Selected.RN3Start = "";
                 Selected.RN3End = "";
             }
@@ -475,6 +493,7 @@ namespace RosterApp.Views
                 {
                     ListManager.UpdateRoster(Selected.CCA1Id, -ListManager.GetLength(Selected.CCA1Start, Selected.CCA1End), 0.0, Week);
                     Selected.CCA1Id = (int)cboCCA1.SelectedValue;
+                    Selected.CCA1Name = cboCCA1.Text;
                     Selected.CCA1Start = cboCCA1Start.Text;
                     Selected.CCA1End = cboCCA1End.Text;
                     ListManager.UpdateRoster(Selected.CCA1Id, ListManager.GetLength(Selected.CCA1Start, Selected.CCA1End), 0.0, Week);
@@ -482,6 +501,7 @@ namespace RosterApp.Views
                 else
                 {
                     Selected.CCA1Id = (int)cboCCA1.SelectedValue;
+                    Selected.CCA1Name = cboCCA1.Text;
                     Selected.CCA1Start = cboCCA1Start.Text;
                     Selected.CCA1End = cboCCA1End.Text;
                     ListManager.UpdateRoster(Selected.CCA1Id, ListManager.GetLength(Selected.CCA1Start, Selected.CCA1End), 0.0, Week);
@@ -491,6 +511,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.CCA1Id, -ListManager.GetLength(Selected.CCA1Start, Selected.CCA1End), 0.0, Week);
                 Selected.CCA1Id = 0;
+                Selected.CCA1Name = "";
                 Selected.CCA1Start = "";
                 Selected.CCA1End = "";
             }
@@ -516,6 +537,7 @@ namespace RosterApp.Views
                         {
                             ListManager.UpdateRoster(Selected.CCA2Id, -ListManager.GetLength(Selected.CCA2Start, Selected.CCA2End), 0.0, Week);
                             Selected.CCA2Id = (int)cboCCA2.SelectedValue;
+                            Selected.CCA2Name = cboCCA2.Text;
                             Selected.CCA2Start = cboCCA2Start.Text;
                             Selected.CCA2End = cboCCA2End.Text;
                             ListManager.UpdateRoster(Selected.CCA2Id, ListManager.GetLength(Selected.CCA2Start, Selected.CCA2End), 0.0, Week);
@@ -523,6 +545,7 @@ namespace RosterApp.Views
                         else
                         {
                             Selected.CCA2Id = (int)cboCCA2.SelectedValue;
+                            Selected.CCA2Name = cboCCA2.Text;
                             Selected.CCA2Start = cboCCA2Start.Text;
                             Selected.CCA2End = cboCCA2End.Text;
                             ListManager.UpdateRoster(Selected.CCA2Id, ListManager.GetLength(Selected.CCA2Start, Selected.CCA2End), 0.0, Week);
@@ -539,6 +562,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.CCA2Id, -ListManager.GetLength(Selected.CCA2Start, Selected.CCA2End), 0.0, Week);
                 Selected.CCA2Id = 0;
+                Selected.CCA2Name = "";
                 Selected.CCA2Start = "";
                 Selected.CCA2End = "";
             }
@@ -564,6 +588,7 @@ namespace RosterApp.Views
                         {
                             ListManager.UpdateRoster(Selected.CCA3Id, -ListManager.GetLength(Selected.CCA3Start, Selected.CCA3End), 0.0, Week);
                             Selected.CCA3Id = (int)cboCCA3.SelectedValue;
+                            Selected.CCA3Name = cboCCA3.Text;
                             Selected.CCA3Start = cboCCA3Start.Text;
                             Selected.CCA3End = cboCCA3End.Text;
                             ListManager.UpdateRoster(Selected.CCA3Id, ListManager.GetLength(Selected.CCA3Start, Selected.CCA3End), 0.0, Week);
@@ -571,6 +596,7 @@ namespace RosterApp.Views
                         else
                         {
                             Selected.CCA3Id = (int)cboCCA3.SelectedValue;
+                            Selected.CCA3Name = cboCCA3.Text;
                             Selected.CCA3Start = cboCCA3Start.Text;
                             Selected.CCA3End = cboCCA3End.Text;
                             ListManager.UpdateRoster(Selected.CCA3Id, ListManager.GetLength(Selected.CCA3Start, Selected.CCA3End), 0.0, Week);
@@ -587,6 +613,7 @@ namespace RosterApp.Views
             {
                 ListManager.UpdateRoster(Selected.CCA3Id, -ListManager.GetLength(Selected.CCA3Start, Selected.CCA3End), 0.0, Week);
                 Selected.CCA3Id = 0;
+                Selected.CCA3Name = "";
                 Selected.CCA3Start = "";
                 Selected.CCA3End = "";
             }
@@ -615,9 +642,9 @@ namespace RosterApp.Views
             cboSV1Start.SelectedValue = null;
             cboSV1End.SelectedValue = null;
             cboSV1Start.IsEnabled = false;
-            cboDRI1.SelectedValue = null;
             cboSV1End.IsEnabled = false;
 
+            cboDRI1.SelectedValue = null;
             cboDRI1Start.SelectedValue = null;
             cboDRI1Start.IsEnabled = false;
             cboDRI2End.SelectedValue = null;
