@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -102,15 +98,15 @@ namespace RosterApp.Views
                         txtLocation.Text,
                         cboMDC.Text == "Yes" ? "Yes" : "No",
                         chairs,
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
-                        0, "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
+                        0, "", "", "",
                         "Incomplete");
                 ListManager.AddSession(temp);
                 ListManager.SelectedDate = DateTime.Parse(dateSession.Text);
