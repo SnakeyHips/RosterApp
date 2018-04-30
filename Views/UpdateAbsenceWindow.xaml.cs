@@ -1,18 +1,13 @@
-﻿using System;
-using System.Linq;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using RosterApp.Models;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace RosterApp.Views
 {
-    /// <summary>
-    /// Interaction logic for UpdateAbsenceWindow.xaml
-    /// </summary>
     public partial class UpdateAbsenceWindow : MetroWindow
     {
         Absence Selected;
