@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using RosterApp.Models;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace RosterApp.Views
 {
@@ -28,7 +26,7 @@ namespace RosterApp.Views
             {
                 try
                 {
-                    txtName.Text = ListManager.StaffList.First(x => x.Id == int.Parse(txtId.Text)).Name;
+                    txtName.Text = ListManager.StaffList.Find(x => x.Id == int.Parse(txtId.Text)).Name;
                 }
                 catch
                 {
