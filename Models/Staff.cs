@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+using System;
 
 namespace RosterApp.Models
 {
@@ -27,9 +26,9 @@ namespace RosterApp.Models
         {
             try
             {
-                return ListManager.AbsenceList.First(x => x.StaffId == id
-                && DateTime.Parse(x.StartDate).CompareTo(ListManager.SelectedDate) < 0
-                && DateTime.Parse(x.EndDate).CompareTo(ListManager.SelectedDate) > 0).Type;
+                return ListManager.AbsenceList.Find(x => x.StaffId == id
+                && DateTime.Parse(x.StartDate).CompareTo(ListManager.SelectedDate) <= 0
+                && DateTime.Parse(x.EndDate).CompareTo(ListManager.SelectedDate) >= 0).Type;
             }
             catch
             {
