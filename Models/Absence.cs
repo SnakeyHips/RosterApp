@@ -11,14 +11,8 @@ namespace RosterApp.Models
         public string EndDate { get; set; }
         public double Length { get; set; }
 
-        public Absence(int staffid, string staffname, string type, string startdate, string enddate, double length)
+        public Absence()
         {
-            this.StaffId = staffid;
-            this.StaffName = staffname;
-            this.Type = type;
-            this.StartDate = startdate;
-            this.EndDate = enddate;
-            this.Length = length;
         }
     }
 }
