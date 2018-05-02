@@ -14,8 +14,8 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         WindowStartupLocation="CenterOwner"
-        Title="Session Staff" Height="500" Width="775">
-    <Grid Margin="15, -15, 15, 15">
+        Title="Session Staff" Height="515" Width="775">
+    <Grid Margin="15, 15, 15, 15">
         <Label Content="Date:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <TextBox Name="txtDate" HorizontalAlignment="Left" Height="23" Margin="85,0,0,0" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
         <Label Content="Location: " HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
