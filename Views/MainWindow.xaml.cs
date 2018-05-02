@@ -190,7 +190,8 @@ namespace RosterApp.Views
             if (lstSessions.SelectedIndex > -1)
             {
                 Session Selected = (Session)lstSessions.SelectedItem;
-                Session s = ListManager.SessionList.Find(x => x.Date == Selected.Date && x.StartTime == Selected.StartTime);
+                Session s = ListManager.SessionList.Find
+                    (x => x.Date == Selected.Date &&x.Location == Selected.Location && x.StartTime == Selected.StartTime);
                 if(s.SV1Id == 0 && s.DRI1Id == 0 && s.DRI2Id == 0 && s.RN1Id == 0 && s.RN2Id == 0 
                     && s.RN3Id == 0 && s.CCA1Id == 0 && s.CCA2Id == 0 && s.CCA3Id == 0)
                 {
@@ -201,7 +202,7 @@ namespace RosterApp.Views
                     {
                         ListManager.DeleteSession(s);
                         ListManager.SessionList.Remove(s);
-                        lstSessions.Items.Remove(lstSessions.SelectedItem);
+                        lstSessions.Items.Remove(Selected);
                     }
                 }
                 else
