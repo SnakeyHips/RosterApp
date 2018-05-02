@@ -89,31 +89,37 @@ namespace RosterApp.Views
             }
             else
             {
-                int chairs = int.Parse(cboChairs.Text);
-                Session temp = new Session(
-                        dateSession.Text,
-                        cboStartTime.Text,
-                        cboEndTime.Text,
-                        ListManager.GetLength(cboStartTime.Text, cboEndTime.Text),
-                        txtLocation.Text,
-                        cboMDC.Text == "Yes" ? "Yes" : "No",
-                        chairs,
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        0, "", "", "",
-                        "Incomplete");
-                ListManager.AddSession(temp);
-                ListManager.SelectedDate = DateTime.Parse(dateSession.Text);
-                ListManager.SessionList.Add(temp);
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+                Session temp = new Session()
+                {
+                    Date = dateSession.Text,
+                    StartTime = cboStartTime.Text,
+                    EndTime = cboEndTime.Text,
+                    Length = ListManager.GetLength(cboStartTime.Text, cboEndTime.Text),
+                    Location = txtLocation.Text,
+                    MDC = cboMDC.Text == "Yes" ? "Yes" : "No",
+                    Chairs = int.Parse(cboChairs.Text),
+                    SV1Id = 0, SV1Name = "", SV1Start = "", SV1End = "",
+                    DRI1Id = 0, DRI1Name = "", DRI1Start = "", DRI1End = "",
+                    DRI2Id = 0, DRI2Name = "", DRI2Start = "", DRI2End = "",
+                    RN1Id = 0, RN1Name = "", RN1Start = "", RN1End = "",
+                    RN2Id = 0, RN2Name = "", RN2Start = "", RN2End = "",
+                    RN3Id = 0, RN3Name = "", RN3Start = "", RN3End = "",
+                    CCA1Id = 0, CCA1Name = "", CCA1Start = "", CCA1End = "",
+                    CCA2Id = 0, CCA2Name = "", CCA2Start = "", CCA2End = "",
+                    CCA3Id = 0, CCA3Name = "", CCA3Start = "", CCA3End = "",
+                    State = "Incomplete"
+                };
+                if (ListManager.AddSession(temp) > 0)
+                {
+                    ListManager.SelectedDate = DateTime.Parse(dateSession.Text);
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    await this.ShowMessageAsync("", "Duplicate Session found.");
+                }
             }
         }
 
