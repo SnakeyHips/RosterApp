@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RosterApp.Views"
         mc:Ignorable="d"
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen"
-        Title="StaffSessionWindow" Height="510" Width="775">
+        Title="StaffSessionWindow" Height="750" Width="775">
     <Grid Name="grdStaff" Margin="15,15,15,15">
         <Label Content="Date:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <TextBox Name="txtDate" HorizontalAlignment="Left" Height="23" Margin="85,0,0,0" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
@@ -55,6 +56,16 @@
         <ComboBox Name="cboCCA3" HorizontalAlignment="Right" Height="23" Margin="85,300,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Path=CCAList}" DisplayMemberPath="Name" SelectedValuePath="Id" BorderBrush="{DynamicResource AccentColorBrush}" IsEnabled="False" SelectionChanged="cboCCA3_SelectionChanged"/>
         <ComboBox Name="cboCCA3Start" HorizontalAlignment="Right" Height="23" Margin="0,340,80,0" VerticalAlignment="Top" Width="70" ItemsSource="{Binding Path=TimesList}" BorderBrush="{DynamicResource AccentColorBrush}" IsEnabled="False"/>
         <ComboBox Name="cboCCA3End" HorizontalAlignment="Right" Height="23" Margin="0,340,0,0" VerticalAlignment="Top" Width="70" ItemsSource="{Binding Path=TimesList}" BorderBrush="{DynamicResource AccentColorBrush}" IsEnabled="False"/>
+
+        <lvc:CartesianChart Margin="0,385,0,80" LegendLocation="Bottom" DataTooltip="{x:Null}" Hoverable="False" Series="{Binding SeriesCollection}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Name="xAxis"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis ShowLabels="False" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        
         <Button Content="Update" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="btnUpdate_Click"/>
         <Button Content="Reset" HorizontalAlignment="right" Margin="0,0,0,40" VerticalAlignment="Bottom" Width="75" Click="btnReset_Click"/>
         <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="btnClose_Click"/>
