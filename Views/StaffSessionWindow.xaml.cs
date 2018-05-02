@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using RosterApp.Models;
+using LiveCharts;
+using LiveCharts.Wpf;
+using LiveCharts.Defaults;
 
 namespace RosterApp.Views
 {
@@ -18,6 +22,7 @@ namespace RosterApp.Views
         public List<Staff> RNList { get; set; }
         public List<Staff> CCAList { get; set; }
         public List<string> TimesList { get; set; }
+        public SeriesCollection SeriesCollection { get; set; }
         double Week = ListManager.GetWeek(ListManager.SelectedDate);
 
         public StaffSessionWindow(Session s)
@@ -32,10 +37,16 @@ namespace RosterApp.Views
             RNList = ListManager.AvailableStaffList.Where(x => x.Role == "RN").ToList();
             CCAList = ListManager.AvailableStaffList.Where(x => x.Role == "CCA").ToList();
 
+            SeriesCollection = new SeriesCollection();
+
             this.Selected = ListManager.SessionList.Find(x => x.Date == s.Date && x.Location == s.Location && x.StartTime == s.StartTime);
 
             int start = int.Parse(Selected.StartTime.Substring(0, 2));
             int end = int.Parse(Selected.EndTime.Substring(0, 2));
+            xAxis.MinValue = start;
+            xAxis.MaxValue = end;
+            xAxis.Separator = new LiveCharts.Wpf.Separator { Step = 1 };
+
             TimesList = new List<string>();
             for (int i = start - 1; i < end + 1; i++)
             {
@@ -71,59 +82,69 @@ namespace RosterApp.Views
             txtChairs.Text = Selected.Chairs.ToString();
 
             //Autopopulate cbos from StaffList
+            //Pastel colours from colorhexa.com
             if(Selected.SV1Id != 0)
             {
                 cboSV1.SelectedValue = Selected.SV1Id;
                 cboSV1Start.SelectedItem = Selected.SV1Start;
                 cboSV1End.SelectedItem = Selected.SV1End;
+                SeriesCollection.Add(CreateRow("SV1", 255, 105, 97, Selected.SV1Start, Selected.SV1End));
             }
             if (Selected.DRI1Id != 0)
             {
                 cboDRI1.SelectedValue = Selected.DRI1Id;
                 cboDRI1Start.SelectedItem = Selected.DRI1Start;
                 cboDRI1End.SelectedItem = Selected.DRI1End;
+                SeriesCollection.Add(CreateRow("DRI1", 177, 156, 217, Selected.DRI1Start, Selected.DRI1End));
             }
             if (Selected.DRI2Id != 0)
             {
                 cboDRI2.SelectedValue = Selected.DRI2Id;
                 cboDRI2Start.SelectedItem = Selected.DRI2Start;
                 cboDRI2End.SelectedItem = Selected.DRI2End;
+                SeriesCollection.Add(CreateRow("DRI2", 192, 174, 224, Selected.DRI2Start, Selected.DRI2End));
             }
             if (Selected.RN1Id != 0)
             {
                 cboRN1.SelectedValue = Selected.RN1Id;
                 cboRN1Start.SelectedItem = Selected.RN1Start;
                 cboRN1End.SelectedItem = Selected.RN1End;
+                SeriesCollection.Add(CreateRow("RN1", 134, 197, 218, Selected.RN1Start, Selected.RN1End));
             }
             if (Selected.RN2Id != 0)
             {
                 cboRN2.SelectedValue = Selected.RN2Id;
                 cboRN2Start.SelectedItem = Selected.RN2Start;
                 cboRN2End.SelectedItem = Selected.RN2End;
+                SeriesCollection.Add(CreateRow("RN2", 153, 207, 224, Selected.RN2Start, Selected.RN2End));
             }
             if (Selected.RN3Id != 0)
             {
                 cboRN3.SelectedValue = Selected.RN3Id;
                 cboRN3Start.SelectedItem = Selected.RN3Start;
                 cboRN3End.SelectedItem = Selected.RN3End;
+                SeriesCollection.Add(CreateRow("RN3", 173, 216, 230, Selected.RN3Start, Selected.RN3End));
             }
             if (Selected.CCA1Id != 0)
             {
                 cboCCA1.SelectedValue = Selected.CCA1Id;
                 cboCCA1Start.SelectedItem = Selected.CCA1Start;
                 cboCCA1End.SelectedItem = Selected.CCA1End;
+                SeriesCollection.Add(CreateRow("CCA1", 139, 226, 139, Selected.CCA1Start, Selected.CCA1End));
             }
             if (Selected.CCA2Id != 0)
             {
                 cboCCA2.SelectedValue = Selected.CCA2Id;
                 cboCCA2Start.SelectedItem = Selected.CCA2Start;
                 cboCCA2End.SelectedItem = Selected.CCA2End;
+                SeriesCollection.Add(CreateRow("CCA2", 160, 231, 160, Selected.CCA2Start, Selected.CCA2End));
             }
             if (Selected.CCA3Id != 0)
             {
                 cboCCA3.SelectedValue = Selected.CCA3Id;
                 cboCCA3Start.SelectedItem = Selected.CCA3Start;
                 cboCCA3End.SelectedItem = Selected.CCA3End;
+                SeriesCollection.Add(CreateRow("CCA3", 180, 236, 180, Selected.CCA3Start, Selected.CCA3End));
             }
         }
 
@@ -180,6 +201,24 @@ namespace RosterApp.Views
         {
             cboCCA3Start.IsEnabled = true;
             cboCCA3End.IsEnabled = true;
+        }
+
+        //Method for adding gantt row on chart
+        private RowSeries CreateRow(string title, byte r, byte g, byte b,string start, string end)
+        {
+            return new RowSeries
+            {
+                Title = title,
+                Fill = new SolidColorBrush(Color.FromRgb(r, g, b)),
+                Values = new ChartValues<GanttPoint>
+                    {
+                        new GanttPoint(
+                            TimeSpan.Parse(start).TotalHours,
+                            TimeSpan.Parse(end).TotalHours
+                            )
+                    }
+               
+            };
         }
 
         //Update Staff info - lots of if statements as properties can't be passed through methods
