@@ -31,11 +31,7 @@ namespace RosterApp.Views
             //Makes sure each input has an input before being made
             if (txtId.Text == "")
             {
-                await this.ShowMessageAsync("", "Please enter an Id.");
-            }
-            else if (ListManager.StaffList.Find(x => x.Id == int.Parse(txtId.Text)) != null)
-            {
-                await this.ShowMessageAsync("", "Staff Id already in use.");
+                await this.ShowMessageAsync("", "Please enter an ID.");
             }
             else if (txtFirstName.Text == "")
             {
@@ -55,17 +51,25 @@ namespace RosterApp.Views
             }
             else
             {
-                Staff temp = new Staff(
-                    int.Parse(txtId.Text),
-                    txtFirstName.Text + " " + txtLastName.Text,
-                    cboRole.Text,
-                    double.Parse(cboHours.Text),
-                    GetWorkPattern());
-                ListManager.AddStaff(temp);
-                ListManager.StaffList.Add(temp);
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+                Staff temp = new Staff()
+                {
+                    Id = int.Parse(txtId.Text),
+                    Name = txtFirstName.Text + " " + txtLastName.Text,
+                    Role = cboRole.Text,
+                    ContractHours = double.Parse(cboHours.Text),
+                    WorkPattern = GetWorkPattern()
+                };
+                if (ListManager.AddStaff(temp) > 0)
+                {
+                    ListManager.StaffList.Add(temp);
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    await this.ShowMessageAsync("", "Duplicate Staff ID found.");
+                }
             }
 
         }
