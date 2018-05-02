@@ -57,10 +57,6 @@ namespace RosterApp.Views
             {
                 await this.ShowMessageAsync("", "Please enter a valid Start Date.");
             }
-            else if (ListManager.AbsenceList.Find(x => x.StaffId == int.Parse(txtId.Text) && x.StartDate == dateStart.Text) != null)
-            {
-                await this.ShowMessageAsync("", "Staff already has Absence for this Start Date.");
-            }
             else if (dateEnd.Text == "")
             {
                 await this.ShowMessageAsync("", "Please enter an End Date.");
@@ -75,21 +71,28 @@ namespace RosterApp.Views
             }
             else
             {
-                Absence temp = new Absence(
-                    int.Parse(txtId.Text),
-                    txtName.Text,
-                    cboType.Text,
-                    dateStart.Text,
-                    dateEnd.Text,
-                    double.Parse(txtHours.Text));
-                //Update table and list
-                ListManager.AddAbsence(temp);
-                ListManager.AbsenceList.Add(temp);
-                //Update staff's absence hours
-                ListManager.UpdateRoster(temp.StaffId, 0.0, temp.Length, ListManager.GetWeek(DateTime.Parse(dateStart.Text)));
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+                Absence temp = new Absence()
+                {
+                    StaffId = int.Parse(txtId.Text),
+                    StaffName = txtName.Text,
+                    Type = cboType.Text,
+                    StartDate = dateStart.Text,
+                    EndDate = dateEnd.Text,
+                    Length = double.Parse(txtHours.Text)
+                };
+                if(ListManager.AddAbsence(temp) > 0)
+                {
+                    ListManager.AbsenceList.Add(temp);
+                    //Update staff's absence hours
+                    ListManager.UpdateRoster(temp.StaffId, 0.0, temp.Length, ListManager.GetWeek(DateTime.Parse(dateStart.Text)));
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    await this.ShowMessageAsync("", "Duplicate Absence found.");
+                }
             }
         }
 
