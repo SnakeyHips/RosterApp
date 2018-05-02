@@ -13,13 +13,8 @@ namespace RosterApp.Models
         public string WorkPattern { get; set; }
         public string Status { get; set; }
 
-        public Staff(int id, string name,  string role, double contracthours, string workpattern)
+        public Staff()
         {
-            this.Id = id;
-            this.Name = name;
-            this.Role = role;
-            this.ContractHours = contracthours;
-            this.WorkPattern = workpattern;
         }
 
         public static string GetStatus(int id)
@@ -39,7 +34,14 @@ namespace RosterApp.Models
 
         public static Staff Copy(Staff s)
         {
-            return new Staff(s.Id, s.Name, s.Role, s.ContractHours, s.WorkPattern);
+            return new Staff()
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Role = s.Role,
+                ContractHours = s.ContractHours,
+                WorkPattern = s.WorkPattern
+            };
         }
     }
 }
